@@ -6,12 +6,11 @@ import {
   Linking,
   StyleSheet,
   View,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 
 import Modal from 'react-native-modalbox';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
-import { Chess } from 'chess.js';
 
 import { Button, Board } from '../components';
 
@@ -20,7 +19,7 @@ const COLORS = ['white', 'random', 'black'];
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'Home'
   };
 
   constructor(props) {
@@ -36,18 +35,18 @@ export default class HomeScreen extends Component {
       aiLevel: 3,
       playVsAI: false,
       puzzleFen: 'wrong',
-      puzzleColor: 'w',
+      puzzleColor: 'w'
     };
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then(url => {
+    Linking.getInitialURL().then((url) => {
       if (url) {
         this.handleOpenURL(url);
       }
     });
 
-    Linking.addEventListener('url', event => this.handleOpenURL(event.url));
+    Linking.addEventListener('url', (event) => this.handleOpenURL(event.url));
     // sets session cookie
     fetch(`${HTTP_BASE_URL}/account/info`).then(this.getDailyPuzzle);
   }
@@ -56,18 +55,18 @@ export default class HomeScreen extends Component {
     fetch(`${HTTP_BASE_URL}/training/daily`, {
       headers: {
         Accept: 'application/vnd.lichess.v2+json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         const { id, fen, color, initialMove, lines } = res.puzzle;
 
         this.setState({
           puzzleColor: color === 'white' ? 'w' : 'b',
           puzzleFen: fen,
           puzzleData: res.puzzle,
-          ready: true,
+          ready: true
         });
       });
   };
@@ -82,7 +81,7 @@ export default class HomeScreen extends Component {
   displayModal(playVsAI) {
     this.setState({
       modalDisplayed: true,
-      playVsAI,
+      playVsAI
     });
   }
 
@@ -95,7 +94,7 @@ export default class HomeScreen extends Component {
       totalMinutes,
       incrementSeconds,
       aiLevel,
-      playVsAI,
+      playVsAI
     } = this.state;
     const playConfig = JSON.stringify({
       variant: 1,
@@ -105,18 +104,18 @@ export default class HomeScreen extends Component {
       increment: `${incrementSeconds}`,
       level: `${aiLevel}`,
       color: COLORS[selectedColorIndex],
-      mode: '0',
+      mode: '0'
     });
 
     if (playVsAI) {
       navigate('PlayerVsAI', {
         playConfig,
-        time: selectedTimeIndex === 1 ? totalMinutes * 60 : -1,
+        time: selectedTimeIndex === 1 ? totalMinutes * 60 : -1
       });
     } else {
       navigate('PlayerVsFriend', {
         playConfig,
-        time: selectedTimeIndex === 1 ? totalMinutes * 60 : -1,
+        time: selectedTimeIndex === 1 ? totalMinutes * 60 : -1
       });
     }
 
@@ -131,7 +130,7 @@ export default class HomeScreen extends Component {
       totalMinutes,
       incrementSeconds,
       aiLevel,
-      playVsAI,
+      playVsAI
     } = this.state;
 
     let timePickers;
@@ -144,7 +143,7 @@ export default class HomeScreen extends Component {
             minimumValue={1}
             maximumValue={150}
             step={1}
-            onValueChange={value => this.setState({ totalMinutes: value })}
+            onValueChange={(value) => this.setState({ totalMinutes: value })}
             value={totalMinutes}
           />
           <Text style={styles.label}>
@@ -154,7 +153,7 @@ export default class HomeScreen extends Component {
             minimumValue={0}
             maximumValue={180}
             step={1}
-            onValueChange={value => this.setState({ incrementSeconds: value })}
+            onValueChange={(value) => this.setState({ incrementSeconds: value })}
             value={incrementSeconds}
           />
         </View>
@@ -170,7 +169,7 @@ export default class HomeScreen extends Component {
             minimumValue={1}
             maximumValue={8}
             step={1}
-            onValueChange={value => this.setState({ aiLevel: value })}
+            onValueChange={(value) => this.setState({ aiLevel: value })}
             value={aiLevel}
           />
         </View>
@@ -184,14 +183,14 @@ export default class HomeScreen extends Component {
           <SegmentedControlTab
             values={COLORS}
             selectedIndex={selectedColorIndex}
-            onTabPress={index => this.setState({ selectedColorIndex: index })}
+            onTabPress={(index) => this.setState({ selectedColorIndex: index })}
           />
           <View style={styles.clockContainer}>
             <Text style={styles.label}>Clock</Text>
             <SegmentedControlTab
               values={['Unlimited', 'Real time']}
               selectedIndex={selectedTimeIndex}
-              onTabPress={index => this.setState({ selectedTimeIndex: index })}
+              onTabPress={(index) => this.setState({ selectedTimeIndex: index })}
             />
             {timePickers}
           </View>
@@ -265,46 +264,46 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 32,
+    padding: 32
   },
   button: {
-    marginTop: 16,
+    marginTop: 16
   },
   modalButton: {
     marginTop: 16,
-    backgroundColor: '#D85000',
+    backgroundColor: '#D85000'
   },
   modal: {
     padding: 16,
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 16,
+    padding: 16
   },
   label: {
     fontSize: 10,
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 16,
-    padding: 4,
+    padding: 4
   },
   clockContainer: {
     backgroundColor: '#81a59a',
     padding: 16,
-    marginTop: 16,
+    marginTop: 16
   },
   board: {
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   puzzleContainer: {
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   puzzleHeadline: {
     color: 'red',
     fontSize: 16,
     textAlign: 'center',
-    margin: 4,
+    margin: 4
   },
   loadingContanier: {
     position: 'absolute',
@@ -314,6 +313,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     paddingTop: 24,
-    opacity: 0.4,
-  },
+    opacity: 0.4
+  }
 });

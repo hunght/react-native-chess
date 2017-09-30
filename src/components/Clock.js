@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-
+import PropTypes from 'prop-types';
 import Sound from 'react-native-sound';
 
 const TOTAL_MINUTES = 60;
@@ -9,13 +9,13 @@ const lowTimeSound = new Sound('lowtime.mp3', Sound.MAIN_BUNDLE);
 export default class Clock extends Component {
   static propTypes = {
     time: PropTypes.number.isRequired,
-    enabled: PropTypes.bool,
+    enabled: PropTypes.bool
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      time: props.time,
+      time: props.time
     };
   }
 
@@ -23,31 +23,28 @@ export default class Clock extends Component {
     const nextTime = nextProps.time;
     if (this.props.time !== nextTime) {
       this.setState({
-        time: nextTime,
+        time: nextTime
       });
     }
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(
-      () => {
-        if (this.props.enabled) {
-          const { time } = this.state;
-          const playDong = time === 59;
+    this.intervalId = setInterval(() => {
+      if (this.props.enabled) {
+        const { time } = this.state;
+        const playDong = time === 59;
 
-          if (playDong) {
-            lowTimeSound.play();
-          }
-
-          if (time > 0) {
-            this.setState({
-              time: time - 1,
-            });
-          }
+        if (playDong) {
+          lowTimeSound.play();
         }
-      },
-      1000,
-    );
+
+        if (time > 0) {
+          this.setState({
+            time: time - 1
+          });
+        }
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -65,8 +62,8 @@ export default class Clock extends Component {
       );
     }
 
-    let minutes = '' +
-      Math.floor(time % (TOTAL_MINUTES * TOTAL_MINUTES) / TOTAL_MINUTES);
+    let minutes =
+      '' + Math.floor((time % (TOTAL_MINUTES * TOTAL_MINUTES)) / TOTAL_MINUTES);
     let seconds = '' + Math.floor(time % TOTAL_MINUTES);
 
     if (isNaN(minutes) || isNaN(seconds)) {
@@ -94,17 +91,17 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     backgroundColor: 'grey',
     padding: 4,
-    borderRadius: 3,
+    borderRadius: 3
   },
   text: {
     color: 'white',
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   waiting: {
     margin: 16,
     alignSelf: 'flex-end',
     fontSize: 14,
-    color: '#dd465b',
-  },
+    color: '#dd465b'
+  }
 });

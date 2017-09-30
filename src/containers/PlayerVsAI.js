@@ -10,7 +10,7 @@ const dongSound = new Sound('dong.mp3', Sound.MAIN_BUNDLE);
 
 export default class PlayerVsLichessAI extends Component {
   static navigationOptions = {
-    title: 'Play with the machine',
+    title: 'Play with the machine'
   };
 
   constructor(props) {
@@ -19,7 +19,7 @@ export default class PlayerVsLichessAI extends Component {
     const { time } = this.props.navigation.state.params;
     this.latestClock = {
       white: time,
-      black: time,
+      black: time
     };
 
     this.state = {
@@ -29,7 +29,7 @@ export default class PlayerVsLichessAI extends Component {
       whiteClock: time,
       blackClock: time,
       victor: '',
-      resigned: false,
+      resigned: false
     };
   }
 
@@ -55,25 +55,27 @@ export default class PlayerVsLichessAI extends Component {
       method: 'POST',
       headers: {
         Accept: 'application/vnd.lichess.v2+json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: playConfig,
+      body: playConfig
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(this.onGameCreated);
   }
 
-  onGameCreated = res => {
+  onGameCreated = (res) => {
     const { game } = this.state;
     const socketUrl = res.url.socket;
-    const clientId = Math.random().toString(36).substring(2);
+    const clientId = Math.random()
+      .toString(36)
+      .substring(2);
     clearInterval(this.interval);
     this.wsReady = false;
     this.ws = new WebSocket(
-      `wss://socket.lichess.org${socketUrl}?sri=${clientId}&mobile=1`,
+      `wss://socket.lichess.org${socketUrl}?sri=${clientId}&mobile=1`
     );
 
-    this.ws.onmessage = e => {
+    this.ws.onmessage = (e) => {
       // a message was received
       console.log(`received: ${e.data}`);
       const data = JSON.parse(e.data);
@@ -103,7 +105,7 @@ export default class PlayerVsLichessAI extends Component {
       if (victor) {
         dongSound.play();
         this.setState({
-          victor,
+          victor
         });
         this.ws = null;
       } else if (moveData) {
@@ -124,7 +126,7 @@ export default class PlayerVsLichessAI extends Component {
       }
     };
 
-    this.ws.onerror = e => {
+    this.ws.onerror = (e) => {
       // an error occurred
       console.log(e.message);
     };
@@ -134,19 +136,16 @@ export default class PlayerVsLichessAI extends Component {
       dongSound.play();
       this.setState({
         initialized: true,
-        userColor: res.player.color === 'white' ? 'w' : 'b',
+        userColor: res.player.color === 'white' ? 'w' : 'b'
       });
       console.log('ws open');
       // ping every second
-      this.interval = setInterval(
-        () => {
-          this.sendMessage({
-            t: 'p',
-            v: game.history().length,
-          });
-        },
-        1000,
-      );
+      this.interval = setInterval(() => {
+        this.sendMessage({
+          t: 'p',
+          v: game.history().length
+        });
+      }, 1000);
     };
   };
 
@@ -163,7 +162,7 @@ export default class PlayerVsLichessAI extends Component {
     game.move({
       from,
       to,
-      promotion: game.QUEEN,
+      promotion: game.QUEEN
     });
 
     if (game.turn() !== userColor) {
@@ -171,18 +170,18 @@ export default class PlayerVsLichessAI extends Component {
         t: 'move',
         d: {
           from,
-          to,
-        },
+          to
+        }
       });
     }
 
     this.setState({
       whiteClock: this.latestClock.white,
-      blackClock: this.latestClock.black,
+      blackClock: this.latestClock.black
     });
   };
 
-  shouldSelectPiece = piece => {
+  shouldSelectPiece = (piece) => {
     const { game, userColor, victor } = this.state;
     const turn = game.turn();
     if (
@@ -220,7 +219,7 @@ export default class PlayerVsLichessAI extends Component {
       whiteClock,
       blackClock,
       victor,
-      resigned,
+      resigned
     } = this.state;
     const isReverseBoard = userColor === 'b';
     const turn = game.turn();
@@ -239,7 +238,7 @@ export default class PlayerVsLichessAI extends Component {
           enabled={isReverseBoard ? whiteTurn : blackTurn}
         />
         <Board
-          ref={board => this.board = board}
+          ref={(board) => (this.board = board)}
           fen={fen}
           color={userColor}
           shouldSelectPiece={this.shouldSelectPiece}
@@ -251,12 +250,13 @@ export default class PlayerVsLichessAI extends Component {
           enabled={isReverseBoard ? blackTurn : whiteTurn}
         />
         {!resigned &&
-          !victor &&
-          <Button
-            style={styles.resignButton}
-            text={resigned ? 'Resigned' : 'Resign'}
-            onPress={this.resign}
-          />}
+          !victor && (
+            <Button
+              style={styles.resignButton}
+              text={resigned ? 'Resigned' : 'Resign'}
+              onPress={this.resign}
+            />
+          )}
       </View>
     );
   }
@@ -268,15 +268,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   statusText: {
     color: 'red',
     fontSize: 16,
-    margin: 4,
+    margin: 4
   },
   resignButton: {
     width: 200,
-    backgroundColor: 'red',
-  },
+    backgroundColor: 'red'
+  }
 });

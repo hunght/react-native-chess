@@ -14,14 +14,16 @@ const dongSound = new Sound('dong.mp3', Sound.MAIN_BUNDLE);
 
 export default class PlayerVsFriend extends Component {
   static navigationOptions = {
-    title: 'Play with a friend',
+    title: 'Play with a friend'
   };
 
   constructor(props) {
     super(props);
 
     const { time } = this.props.navigation.state.params;
-    this.clientId = Math.random().toString(36).substring(2);
+    this.clientId = Math.random()
+      .toString(36)
+      .substring(2);
 
     this.state = {
       initialized: false,
@@ -32,7 +34,7 @@ export default class PlayerVsFriend extends Component {
       whiteClock: time,
       blackClock: time,
       victor: '',
-      resigned: false,
+      resigned: false
     };
   }
 
@@ -63,19 +65,20 @@ export default class PlayerVsFriend extends Component {
       method: 'POST',
       headers: {
         Accept: 'application/vnd.lichess.v2+json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: playConfig,
+      body: playConfig
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         const gameId = res.challenge.id;
-        const socketUrl = `${SOCKET_BASE_URL}/challenge/${gameId}/socket/v2?sri=${this.clientId}&mobile=1`;
+        const socketUrl = `${SOCKET_BASE_URL}/challenge/${gameId}/socket/v2?sri=${this
+          .clientId}&mobile=1`;
         this.createSocket(socketUrl, gameId);
         this.setState({
           initialized: true,
           invitationId: gameId,
-          userColor: res.challenge.color === 'white' ? 'w' : 'b',
+          userColor: res.challenge.color === 'white' ? 'w' : 'b'
         });
       });
   }
@@ -85,20 +88,21 @@ export default class PlayerVsFriend extends Component {
       method: 'POST',
       headers: {
         Accept: 'application/vnd.lichess.v2+json',
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         if (res.error) {
           alert(res.error);
         } else {
-          const socketUrl = `${SOCKET_BASE_URL}${res.url.socket}?sri=${this.clientId}&mobile=1`;
+          const socketUrl = `${SOCKET_BASE_URL}${res.url.socket}?sri=${this
+            .clientId}&mobile=1`;
           this.createSocket(socketUrl);
           this.setState({
             initialized: true,
             gameStarted: true,
-            userColor: res.player.color === 'white' ? 'w' : 'b',
+            userColor: res.player.color === 'white' ? 'w' : 'b'
           });
         }
       });
@@ -109,23 +113,24 @@ export default class PlayerVsFriend extends Component {
       fetch(`${HTTP_BASE_URL}/${socketId}`, {
         headers: {
           Accept: 'application/vnd.lichess.v2+json',
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
       })
-        .then(res => res.json())
-        .then(res => {
+        .then((res) => res.json())
+        .then((res) => {
           this.gameFetching = false;
           if (res.url && res.url.socket) {
             this.gameFetched = true;
             dongSound.play();
 
-            const socketUrl = `${SOCKET_BASE_URL}${res.url.socket}?sri=${this.clientId}&mobile=1`;
+            const socketUrl = `${SOCKET_BASE_URL}${res.url.socket}?sri=${this
+              .clientId}&mobile=1`;
             this.gameSocketUrl = socketUrl;
             this.createSocket(socketUrl);
 
             this.setState({
               gameStarted: true,
-              userColor: res.player.color === 'white' ? 'w' : 'b',
+              userColor: res.player.color === 'white' ? 'w' : 'b'
             });
           }
         });
@@ -140,7 +145,7 @@ export default class PlayerVsFriend extends Component {
     this.ws = new WebSocket(socketUrl);
     clearInterval(this.interval);
 
-    this.ws.onmessage = e => {
+    this.ws.onmessage = (e) => {
       // a message was received
       console.log(`received: ${e.data}`);
       const data = JSON.parse(e.data);
@@ -180,7 +185,7 @@ export default class PlayerVsFriend extends Component {
       if (victor) {
         dongSound.play();
         this.setState({
-          victor,
+          victor
         });
         this.ws = null;
       } else if (moveData) {
@@ -202,17 +207,17 @@ export default class PlayerVsFriend extends Component {
         const clock = moveData.clock || {};
         this.setState({
           whiteClock: clock.white || -1,
-          blackClock: clock.black || -1,
+          blackClock: clock.black || -1
         });
       }
     };
 
-    this.ws.onerror = e => {
+    this.ws.onerror = (e) => {
       // an error occurred
       console.log(e.message);
     };
 
-    this.ws.onclose = e => {
+    this.ws.onclose = (e) => {
       console.log(e.code, e.reason);
       if (this.gameSocketUrl) {
         this.createSocket(this.gameSocketUrl);
@@ -224,15 +229,12 @@ export default class PlayerVsFriend extends Component {
       this.wsReady = true;
       // ping every second
       clearInterval(this.interval);
-      this.interval = setInterval(
-        () => {
-          this.sendMessage({
-            t: 'p',
-            v: game.history().length,
-          });
-        },
-        1000,
-      );
+      this.interval = setInterval(() => {
+        this.sendMessage({
+          t: 'p',
+          v: game.history().length
+        });
+      }, 1000);
     };
   };
 
@@ -248,7 +250,7 @@ export default class PlayerVsFriend extends Component {
     const { game, userColor } = this.state;
     game.move({
       from,
-      to,
+      to
     });
 
     if (game.turn() !== userColor) {
@@ -256,13 +258,13 @@ export default class PlayerVsFriend extends Component {
         t: 'move',
         d: {
           from,
-          to,
-        },
+          to
+        }
       });
     }
   };
 
-  shouldSelectPiece = piece => {
+  shouldSelectPiece = (piece) => {
     const { game, userColor, victor } = this.state;
     const turn = game.turn();
     if (
@@ -282,7 +284,7 @@ export default class PlayerVsFriend extends Component {
     const { invitationId } = this.state;
     Share.open({
       title: "Let's play chess",
-      url: `${URL_SCHEME}${invitationId}`,
+      url: `${URL_SCHEME}${invitationId}`
     });
   };
 
@@ -334,7 +336,7 @@ export default class PlayerVsFriend extends Component {
       blackClock,
       victor,
       resigned,
-      gameStarted,
+      gameStarted
     } = this.state;
     const isReverseBoard = userColor === 'b';
     const turn = game.turn();
@@ -353,7 +355,7 @@ export default class PlayerVsFriend extends Component {
           enabled={isReverseBoard ? whiteTurn : blackTurn}
         />
         <Board
-          ref={board => this.board = board}
+          ref={(board) => (this.board = board)}
           fen={fen}
           color={userColor}
           shouldSelectPiece={this.shouldSelectPiece}
@@ -366,12 +368,13 @@ export default class PlayerVsFriend extends Component {
         />
         {!resigned &&
           gameStarted &&
-          !victor &&
-          <Button
-            style={styles.resignButton}
-            text={resigned ? 'Resigned' : 'Resign'}
-            onPress={this.resign}
-          />}
+          !victor && (
+            <Button
+              style={styles.resignButton}
+              text={resigned ? 'Resigned' : 'Resign'}
+              onPress={this.resign}
+            />
+          )}
         {this.renderInvitationMessage()}
       </View>
     );
@@ -384,7 +387,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   fullScreen: {
     position: 'absolute',
@@ -394,34 +397,34 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   invitationBox: {
     backgroundColor: 'white',
-    padding: 16,
+    padding: 16
   },
   text: {
     fontSize: 12,
     marginVertical: 8,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   urlText: {
     backgroundColor: 'grey',
     paddingVertical: 16,
-    color: 'white',
+    color: 'white'
   },
   headline: {
     fontSize: 16,
     fontWeight: 'bold',
-    margin: 0,
+    margin: 0
   },
   statusText: {
     color: 'red',
     fontSize: 16,
-    margin: 4,
+    margin: 4
   },
   resignButton: {
     width: 200,
-    backgroundColor: 'red',
-  },
+    backgroundColor: 'red'
+  }
 });

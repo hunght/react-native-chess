@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 
 import { Chess } from 'chess.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,19 +17,19 @@ const INITIAL_STATE = {
   waiting: true,
   success: false,
   failed: false,
-  resigned: false,
+  resigned: false
 };
 
 export default class Training extends Component {
   static navigationOptions = {
-    title: 'Training',
+    title: 'Training'
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      ...INITIAL_STATE,
+      ...INITIAL_STATE
     };
   }
 
@@ -50,13 +44,7 @@ export default class Training extends Component {
   }
 
   onMove = ({ from, to }) => {
-    const {
-      game,
-      userColor,
-      puzzleMoves,
-      resigned,
-      victory,
-    } = this.state;
+    const { game, userColor, puzzleMoves, resigned, victory } = this.state;
     const currentMoveIndex = this.getCurrentMoveIndex();
     const moveStr = `${from}${to}`;
     const moveLine = puzzleMoves[currentMoveIndex + 1];
@@ -65,7 +53,7 @@ export default class Training extends Component {
     game.move({
       from,
       to,
-      promotion: game.QUEEN,
+      promotion: game.QUEEN
     });
 
     let nextIndex = currentMoveIndex + 1;
@@ -78,11 +66,11 @@ export default class Training extends Component {
       this.setState({
         victory: true,
         success: false,
-        failed: false,
+        failed: false
       });
     } else if (gameOver || game.turn() !== userColor) {
       this.setState({
-        waiting: true,
+        waiting: true
       });
 
       // right move
@@ -92,7 +80,7 @@ export default class Training extends Component {
             this.setState({
               victory: true,
               success: false,
-              failed: false,
+              failed: false
             });
           }
 
@@ -103,23 +91,20 @@ export default class Training extends Component {
 
         this.setState({
           success: true,
-          failed: false,
+          failed: false
         });
       } else if (!gameOver) {
         // undo
         this.setState({
           success: false,
-          failed: true,
+          failed: true
         });
 
-        setTimeout(
-          () => {
-            game.undo();
-            this.board.undo();
-            this.setState({ waiting: false });
-          },
-          1000,
-        );
+        setTimeout(() => {
+          game.undo();
+          this.board.undo();
+          this.setState({ waiting: false });
+        }, 1000);
       }
     }
   };
@@ -128,11 +113,11 @@ export default class Training extends Component {
     fetch(`${HTTP_BASE_URL}/training/new?_${Date.now()}`, {
       headers: {
         Accept: 'application/vnd.lichess.v2+json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     })
-      .then(res => res.json())
-      .then(res => this.drawPuzzle(res.puzzle));
+      .then((res) => res.json())
+      .then((res) => this.drawPuzzle(res.puzzle));
   }
 
   drawPuzzle(data) {
@@ -141,7 +126,7 @@ export default class Training extends Component {
 
     let nextObject = lines;
     while (true) {
-      var nextKey = Object.keys(nextObject)[0];
+      const nextKey = Object.keys(nextObject)[0];
       nextObject = nextObject[nextKey];
 
       puzzleMoves.push(nextKey);
@@ -160,9 +145,9 @@ export default class Training extends Component {
         fen,
         userColor: color === 'white' ? 'w' : 'b',
         waiting: true,
-        puzzleMoves,
+        puzzleMoves
       },
-      () => this.lateMove(initialMove),
+      () => this.lateMove(initialMove)
     );
   }
 
@@ -171,7 +156,7 @@ export default class Training extends Component {
     this.getNextTraining();
   };
 
-  move = moveData => {
+  move = (moveData) => {
     const { game } = this.state;
     const { from, to } = this.parseMove(moveData);
     game.move({ from, to });
@@ -181,13 +166,10 @@ export default class Training extends Component {
     }
   };
 
-  lateMove = moveData => {
-    setTimeout(
-      () => {
-        this.move(moveData);
-      },
-      1000,
-    );
+  lateMove = (moveData) => {
+    setTimeout(() => {
+      this.move(moveData);
+    }, 1000);
   };
 
   parseMove(str) {
@@ -195,11 +177,11 @@ export default class Training extends Component {
     const to = str.substring(2, 4);
     return {
       from,
-      to,
+      to
     };
   }
 
-  shouldSelectPiece = piece => {
+  shouldSelectPiece = (piece) => {
     const { victory, resigned, game, userColor } = this.state;
     const turn = game.turn();
     if (
@@ -279,27 +261,14 @@ export default class Training extends Component {
   }
 
   renderStatusText() {
-    const {
-      success,
-      failed,
-      victory,
-      resigned,
-    } = this.state;
+    const { success, failed, victory, resigned } = this.state;
 
     if (resigned) {
-      return (
-        <Text style={[styles.text, styles.failText]}>
-          Puzzle failed
-        </Text>
-      );
+      return <Text style={[styles.text, styles.failText]}>Puzzle failed</Text>;
     }
 
     if (victory) {
-      return (
-        <Text style={[styles.text, styles.successText]}>
-          Victory!
-        </Text>
-      );
+      return <Text style={[styles.text, styles.successText]}>Victory!</Text>;
     }
 
     if (success) {
@@ -324,14 +293,7 @@ export default class Training extends Component {
   }
 
   render() {
-    const {
-      puzzleId,
-      fen,
-      userColor,
-      waiting,
-      resigned,
-      victory,
-    } = this.state;
+    const { puzzleId, fen, userColor, waiting, resigned, victory } = this.state;
 
     if (!puzzleId) {
       return <ActivityIndicator style={styles.container} animating />;
@@ -343,7 +305,7 @@ export default class Training extends Component {
           {`Find the best move for ${userColor === 'w' ? 'white' : 'black'}.`}
         </Text>
         <Board
-          ref={board => this.board = board}
+          ref={(board) => (this.board = board)}
           key={`puzzle_${puzzleId}`}
           style={styles.board}
           fen={fen}
@@ -353,10 +315,11 @@ export default class Training extends Component {
         />
         <View style={styles.bottom}>
           {!resigned &&
-            !victory &&
-            <Text style={styles.text}>
-              {waiting ? 'Waiting' : 'Your Turn'}
-            </Text>}
+            !victory && (
+              <Text style={styles.text}>
+                {waiting ? 'Waiting' : 'Your Turn'}
+              </Text>
+            )}
           {this.renderStatusText()}
         </View>
         {this.renderChessButtons()}
@@ -370,33 +333,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   text: {
     color: 'white',
     fontSize: 14,
-    marginVertical: 16,
+    marginVertical: 16
   },
   board: {
     flex: 0,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   bottom: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   successText: {
-    color: '#759900',
+    color: '#759900'
   },
   failText: {
-    color: '#DC322F',
+    color: '#DC322F'
   },
   resignButton: {
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   chessButtons: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
+    justifyContent: 'center'
+  }
 });

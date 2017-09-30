@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Dimensions, View, StyleSheet } from 'react-native';
-
+import PropTypes from 'prop-types';
 import { Chess } from 'chess.js';
 import Sound from 'react-native-sound';
 
@@ -22,7 +22,7 @@ export default class BoardView extends Component {
     color: PropTypes.oneOf(['w', 'b']),
     shouldSelectPiece: PropTypes.func,
     onMove: PropTypes.func,
-    style: View.propTypes.style,
+    style: View.propTypes.style
   };
 
   static defaultProps = {
@@ -30,7 +30,7 @@ export default class BoardView extends Component {
     showNotation: true,
     color: 'w',
     shouldSelectPiece: () => true,
-    onMove: () => {},
+    onMove: () => {}
   };
 
   constructor(props) {
@@ -40,7 +40,7 @@ export default class BoardView extends Component {
 
     this.state = {
       game,
-      board: this.createBoardData(game, props.fen),
+      board: this.createBoardData(game, props.fen)
     };
   }
 
@@ -48,7 +48,7 @@ export default class BoardView extends Component {
     const nextFen = nextProps.fen;
     if (nextFen !== this.props.fen) {
       this.setState({
-        board: this.createBoardData(this.state.game, nextFen),
+        board: this.createBoardData(this.state.game, nextFen)
       });
     }
   }
@@ -56,11 +56,11 @@ export default class BoardView extends Component {
   movePiece = (to, from) => {
     const { onMove } = this.props;
     const { game, board } = this.state;
-    const selectedPiece = board.find(item => item.selected);
+    const selectedPiece = board.find((item) => item.selected);
     const moveConfig = {
       to,
       from: from || selectedPiece.position,
-      promotion: game.QUEEN,
+      promotion: game.QUEEN
     };
     const moveResult = game.move(moveConfig);
 
@@ -73,7 +73,7 @@ export default class BoardView extends Component {
     onMove(moveConfig);
 
     this.setState({
-      board: this.createBoardData(game),
+      board: this.createBoardData(game)
     });
   };
 
@@ -82,14 +82,14 @@ export default class BoardView extends Component {
     moveSound.play();
     game.undo();
     this.setState({
-      board: this.createBoardData(game),
+      board: this.createBoardData(game)
     });
   };
 
-  selectPiece = position => {
+  selectPiece = (position) => {
     const { shouldSelectPiece } = this.props;
     const { board, game } = this.state;
-    const piece = board.find(b => b.position === position);
+    const piece = board.find((b) => b.position === position);
 
     // capture the piece
     if (piece.canMoveHere) {
@@ -105,17 +105,17 @@ export default class BoardView extends Component {
     const possibleMoves = game
       .moves({
         square: piece.position,
-        verbose: true,
+        verbose: true
       })
-      .map(item => item.to);
+      .map((item) => item.to);
 
-    const newBoard = board.map(square => {
+    const newBoard = board.map((square) => {
       // unselect everything
       if (piece.selected) {
         return {
           ...square,
           selected: false,
-          canMoveHere: false,
+          canMoveHere: false
         };
       }
 
@@ -125,12 +125,12 @@ export default class BoardView extends Component {
       return {
         ...square,
         selected: isSelected,
-        canMoveHere,
+        canMoveHere
       };
     });
 
     this.setState({
-      board: newBoard,
+      board: newBoard
     });
   };
 
@@ -162,7 +162,7 @@ export default class BoardView extends Component {
           selected: false,
           canMoveHere: false,
           lastMove: position === lastMove.to || position === lastMove.from,
-          inCheck: inCheck && turn === color && type === game.KING,
+          inCheck: inCheck && turn === color && type === game.KING
         });
       });
     });
@@ -176,7 +176,7 @@ export default class BoardView extends Component {
     const squareSize = size / DIMENSION;
     const rowSquares = [];
 
-    board.forEach(square => {
+    board.forEach((square) => {
       const {
         rowIndex,
         columnIndex,
@@ -185,7 +185,7 @@ export default class BoardView extends Component {
         selected,
         canMoveHere,
         lastMove,
-        inCheck,
+        inCheck
       } = square;
 
       const squareView = (
@@ -226,14 +226,8 @@ export default class BoardView extends Component {
     const { size } = this.props;
     const { board } = this.state;
 
-    return board.map(square => {
-      const {
-        type,
-        color,
-        rowIndex,
-        columnIndex,
-        position,
-      } = square;
+    return board.map((square) => {
+      const { type, color, rowIndex, columnIndex, position } = square;
       if (type) {
         return (
           <Piece
@@ -263,9 +257,9 @@ export default class BoardView extends Component {
           style={{
             transform: [
               {
-                rotate: reverseBoard ? '180deg' : '0deg',
-              },
-            ],
+                rotate: reverseBoard ? '180deg' : '0deg'
+              }
+            ]
           }}
         >
           {this.renderSquares(reverseBoard)}
@@ -278,9 +272,9 @@ export default class BoardView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   row: {
-    flexDirection: 'row',
-  },
+    flexDirection: 'row'
+  }
 });

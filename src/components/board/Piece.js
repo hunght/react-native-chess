@@ -1,31 +1,32 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { TouchableWithoutFeedback, Image } from 'react-native';
+import PropTypes from 'prop-types';
 
 const PIECE_IMAGES = {
   b: {
     w: require('./pieces/wB.png'),
-    b: require('./pieces/bB.png'),
+    b: require('./pieces/bB.png')
   },
   k: {
     w: require('./pieces/wK.png'),
-    b: require('./pieces/bK.png'),
+    b: require('./pieces/bK.png')
   },
   n: {
     w: require('./pieces/wN.png'),
-    b: require('./pieces/bN.png'),
+    b: require('./pieces/bN.png')
   },
   p: {
     w: require('./pieces/wP.png'),
-    b: require('./pieces/bP.png'),
+    b: require('./pieces/bP.png')
   },
   q: {
     w: require('./pieces/wQ.png'),
-    b: require('./pieces/bQ.png'),
+    b: require('./pieces/bQ.png')
   },
   r: {
     w: require('./pieces/wR.png'),
-    b: require('./pieces/bR.png'),
-  },
+    b: require('./pieces/bR.png')
+  }
 };
 
 export default class Piece extends Component {
@@ -37,7 +38,7 @@ export default class Piece extends Component {
     columnIndex: PropTypes.number.isRequired,
     pieceSize: PropTypes.number.isRequired,
     reverseBoard: PropTypes.bool,
-    onSelected: PropTypes.func.isRequired,
+    onSelected: PropTypes.func.isRequired
   };
 
   onSelected = () => {
@@ -52,7 +53,7 @@ export default class Piece extends Component {
       rowIndex,
       columnIndex,
       pieceSize,
-      reverseBoard,
+      reverseBoard
     } = this.props;
     const pieceImageSource = PIECE_IMAGES[type][color];
 
@@ -67,9 +68,9 @@ export default class Piece extends Component {
             height: pieceSize,
             transform: [
               {
-                rotate: reverseBoard ? '180deg' : '0deg',
-              },
-            ],
+                rotate: reverseBoard ? '180deg' : '0deg'
+              }
+            ]
           }}
           source={pieceImageSource}
         />

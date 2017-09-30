@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import PropTypes from 'prop-types';
 
 export default class Board extends Component {
   static propTypes = {
@@ -15,7 +16,7 @@ export default class Board extends Component {
     lastMove: PropTypes.bool,
     inCheck: PropTypes.bool,
     reverseBoard: PropTypes.bool,
-    onSelected: PropTypes.func.isRequired,
+    onSelected: PropTypes.func.isRequired
   };
 
   onSelected = () => {
@@ -30,13 +31,13 @@ export default class Board extends Component {
       columnIndex,
       columnName,
       dimension,
-      reverseBoard,
+      reverseBoard
     } = this.props;
     const notations = [];
     const transform = [
       {
-        rotate: reverseBoard ? '180deg' : '0deg',
-      },
+        rotate: reverseBoard ? '180deg' : '0deg'
+      }
     ];
 
     if (showNotation) {
@@ -50,12 +51,12 @@ export default class Board extends Component {
                 color: isBlack ? '#B58863' : '#F0D9B5',
                 top: 0,
                 right: 0,
-                transform,
-              },
+                transform
+              }
             ]}
           >
             {dimension - rowIndex}
-          </Text>,
+          </Text>
         );
       }
 
@@ -69,12 +70,12 @@ export default class Board extends Component {
                 color: isBlack ? '#B58863' : '#F0D9B5',
                 bottom: 0,
                 left: 0,
-                transform,
-              },
+                transform
+              }
             ]}
           >
             {columnName}
-          </Text>,
+          </Text>
         );
       }
     }
@@ -99,7 +100,7 @@ export default class Board extends Component {
       selected,
       lastMove,
       inCheck,
-      canMoveHere,
+      canMoveHere
     } = this.props;
     const isBlack = (rowIndex + columnIndex) % 2 === 0;
     let backgroundColor = isBlack ? '#F0D9B5' : '#B58863';
@@ -123,8 +124,8 @@ export default class Board extends Component {
             {
               backgroundColor,
               width: size,
-              height: size,
-            },
+              height: size
+            }
           ]}
         >
           {this.renderMoveIndicator()}
@@ -138,18 +139,18 @@ export default class Board extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   notation: {
     position: 'absolute',
     fontSize: 11,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   moveIndicator: {
     width: 24,
     height: 24,
     opacity: 0.3,
     backgroundColor: '#208530',
-    borderRadius: 12,
-  },
+    borderRadius: 12
+  }
 });
