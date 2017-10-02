@@ -1,3 +1,4 @@
+//@flow
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
