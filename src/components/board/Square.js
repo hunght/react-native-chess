@@ -16,7 +16,8 @@ export default class Board extends Component {
     lastMove: PropTypes.bool,
     inCheck: PropTypes.bool,
     reverseBoard: PropTypes.bool,
-    onSelected: PropTypes.func.isRequired
+    onSelected: PropTypes.func.isRequired,
+    isHidden: PropTypes.func.isRequired
   };
 
   onSelected = () => {

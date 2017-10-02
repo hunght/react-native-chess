@@ -1,10 +1,11 @@
+//@flow
 import React, { Component } from 'react';
 import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 
 import { Chess } from 'chess.js';
 import Sound from 'react-native-sound';
 
-import { Button, Board, Clock } from '../components';
+import { Button, Board, Clock } from '../../components';
 
 const dongSound = new Sound('dong.mp3', Sound.MAIN_BUNDLE);
 

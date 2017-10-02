@@ -14,8 +14,13 @@ const COLUMN_NAMES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const moveSound = new Sound('move.mp3', Sound.MAIN_BUNDLE);
 const captureSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE);
 
+type BoardType = 'NORMAL_CHESS' | 'HIDDEN_CHESS' | 'RAMDOM_CHESS';
+type BoardViewProps = {
+  +chessType: BoardType
+};
+
 export default class BoardView extends Component {
-  static propTypes = {
+  static propTypes: BoardViewProps = {
     fen: PropTypes.string,
     size: PropTypes.number.isRequired,
     showNotation: PropTypes.bool,
@@ -29,6 +34,7 @@ export default class BoardView extends Component {
     size: screenWidth - 32,
     showNotation: true,
     color: 'w',
+    chessType: 'HIDDEN_CHESS',
     shouldSelectPiece: () => true,
     onMove: () => {}
   };

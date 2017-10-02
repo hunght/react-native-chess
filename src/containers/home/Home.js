@@ -1,3 +1,4 @@
+//@flow
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
@@ -12,7 +13,7 @@ import {
 import Modal from 'react-native-modalbox';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 
-import { Button, Board } from '../components';
+import { Button, Board } from '../../components';
 
 const HTTP_BASE_URL = 'https://en.lichess.org';
 const COLORS = ['white', 'random', 'black'];

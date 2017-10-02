@@ -1,10 +1,11 @@
+//@flow
 import React, { Component } from 'react';
 import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 
 import { Chess } from 'chess.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { Button, Board } from '../components';
+import { Button, Board } from '../../components';
 
 const HTTP_BASE_URL = 'https://en.lichess.org';
 const WIN_KEY = 'win';

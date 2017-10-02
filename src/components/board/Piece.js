@@ -38,7 +38,8 @@ export default class Piece extends Component {
     columnIndex: PropTypes.number.isRequired,
     pieceSize: PropTypes.number.isRequired,
     reverseBoard: PropTypes.bool,
-    onSelected: PropTypes.func.isRequired
+    onSelected: PropTypes.func.isRequired,
+    isHidden: PropTypes.func.isRequired
   };
 
   onSelected = () => {

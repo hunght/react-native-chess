@@ -1,3 +1,4 @@
+//@flow
 import React, { Component } from 'react';
 import { ActivityIndicator, View, StyleSheet, Text } from 'react-native';
 
@@ -5,7 +6,7 @@ import { Chess } from 'chess.js';
 import Share from 'react-native-share';
 import Sound from 'react-native-sound';
 
-import { Button, Board, Clock } from '../components';
+import { Button, Board, Clock } from '../../components';
 
 const HTTP_BASE_URL = 'https://en.lichess.org';
 const SOCKET_BASE_URL = 'wss://socket.lichess.org';

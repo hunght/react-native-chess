@@ -8,8 +8,8 @@
     "lint:eslint": "./node_modules/.bin/eslint src/**/*.js*"
   },
   "dependencies": {
-    "babel-eslint": "^8.0.1",
     "chess.js": "github:jhlywa/chess.js",
+    "ramda": "^0.24.1",
     "react": "15.4.1",
     "react-native": "0.42.3",
     "react-native-modalbox": "1.3.9",
@@ -17,9 +17,15 @@
     "react-native-share": "^1.0.20",
     "react-native-sound": "0.9.0",
     "react-native-vector-icons": "^4.1.1",
-    "react-navigation": "^1.0.0-beta.9"
+    "react-navigation": "^1.0.0-beta.9",
+    "react-redux": "^5.0.6",
+    "react-thunk": "^1.0.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "rxjs": "^5.4.3"
   },
   "devDependencies": {
+    "babel-eslint": "^8.0.1",
     "babel-jest": "19.0.0",
     "babel-preset-react-native": "1.9.1",
     "eslint": "^4.7.2",
