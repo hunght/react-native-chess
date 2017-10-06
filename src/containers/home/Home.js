@@ -1,17 +1,15 @@
 //@flow
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Slider,
   Text,
-  Linking,
   StyleSheet,
   View,
   TouchableOpacity
 } from 'react-native';
 
 import Modal from 'react-native-modalbox';
-import { setState } from './actions';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 import { Button, Board } from '../../components';
@@ -26,109 +24,64 @@ const renderModal = ({
   incrementSeconds,
   aiLevel,
   playVsAI,
-  create
-}: Object) => {
-  let timePickers;
-  if (selectedTimeIndex === 1) {
-    timePickers = (
-      <View>
-        <Text style={styles.label}>Minutes per side: {totalMinutes}</Text>
-        <Slider
-          style={styles.slider}
-          minimumValue={1}
-          maximumValue={150}
-          step={1}
-          onValueChange={(value) => setState({ totalMinutes: value })}
-          value={totalMinutes}
-        />
-        <Text style={styles.label}>
-          Increment in seconds: {incrementSeconds}
-        </Text>
-        <Slider
-          minimumValue={0}
-          maximumValue={180}
-          step={1}
-          onValueChange={(value) => setState({ incrementSeconds: value })}
-          value={incrementSeconds}
-        />
-      </View>
-    );
-  }
-
-  let aiLevelPicker;
-  if (playVsAI) {
-    aiLevelPicker = (
-      <View>
-        <Text style={styles.label}>A.I. level {aiLevel}</Text>
-        <Slider
-          minimumValue={1}
-          maximumValue={8}
-          step={1}
-          onValueChange={(value) => setState({ aiLevel: value })}
-          value={aiLevel}
-        />
-      </View>
-    );
-  }
-
-  return (
-    <Modal isOpen={modalDisplayed} backdropOpacity={0.8} style={styles.modal}>
-      <View style={styles.modalContent}>
-        <Text style={styles.label}>Color</Text>
+  create,
+  setState
+}: Object) => (
+  <Modal isOpen={modalDisplayed} backdropOpacity={0.8} style={styles.modal}>
+    <View style={styles.modalContent}>
+      <Text style={styles.label}>Color</Text>
+      <SegmentedControlTab
+        values={COLORS}
+        selectedIndex={selectedColorIndex}
+        onTabPress={(index) => setState({ selectedColorIndex: index })}
+      />
+      <View style={styles.clockContainer}>
+        <Text style={styles.label}>Clock</Text>
         <SegmentedControlTab
-          values={COLORS}
-          selectedIndex={selectedColorIndex}
-          onTabPress={(index) => setState({ selectedColorIndex: index })}
+          values={['Unlimited', 'Real time']}
+          selectedIndex={selectedTimeIndex}
+          onTabPress={(index) => setState({ selectedTimeIndex: index })}
         />
-        <View style={styles.clockContainer}>
-          <Text style={styles.label}>Clock</Text>
-          <SegmentedControlTab
-            values={['Unlimited', 'Real time']}
-            selectedIndex={selectedTimeIndex}
-            onTabPress={(index) => setState({ selectedTimeIndex: index })}
-          />
-          {timePickers}
-        </View>
-        {aiLevelPicker}
-        <Button style={styles.modalButton} text={'Create'} onPress={create} />
+        {selectedTimeIndex === 1 && (
+          <View>
+            <Text style={styles.label}>Minutes per side: {totalMinutes}</Text>
+            <Slider
+              style={styles.slider}
+              minimumValue={1}
+              maximumValue={150}
+              step={1}
+              onValueChange={(value) => setState({ totalMinutes: value })}
+              value={totalMinutes}
+            />
+            <Text style={styles.label}>
+              Increment in seconds: {incrementSeconds}
+            </Text>
+            <Slider
+              minimumValue={0}
+              maximumValue={180}
+              step={1}
+              onValueChange={(value) => setState({ incrementSeconds: value })}
+              value={incrementSeconds}
+            />
+          </View>
+        )}
       </View>
-    </Modal>
-  );
-};
-
-const renderPuzzleBoard = ({
-  puzzleColor,
-  puzzleFen,
-  puzzleData,
-  navigate
-}: Object) => {
-  return (
-    <View style={styles.puzzleContainer}>
-      <Text style={styles.puzzleHeadline}>Puzzle of the day</Text>
-      <TouchableOpacity onPress={() => navigate('Training', { puzzleData })}>
-        <Board
-          style={styles.board}
-          size={200}
-          color={puzzleColor}
-          fen={puzzleFen}
-          shouldSelectPiece={() => false}
-        />
-      </TouchableOpacity>
+      {playVsAI && (
+        <View>
+          <Text style={styles.label}>A.I. level {aiLevel}</Text>
+          <Slider
+            minimumValue={1}
+            maximumValue={8}
+            step={1}
+            onValueChange={(value) => setState({ aiLevel: value })}
+            value={aiLevel}
+          />
+        </View>
+      )}
+      <Button style={styles.modalButton} text={'Create'} onPress={create} />
     </View>
-  );
-};
-
-const renderActivityIndicator = ({ ready }) => {
-  if (ready) {
-    return null;
-  }
-
-  return (
-    <View style={styles.loadingContanier}>
-      <ActivityIndicator animation size={'large'} color={'green'} />
-    </View>
-  );
-};
+  </Modal>
+);
 
 const HomeScreen = ({
   selectedColorIndex,
@@ -143,15 +96,22 @@ const HomeScreen = ({
   puzzleFen,
   puzzleData,
   navigate,
-  ready
+  ready,
+  setState
 }: Object) => (
   <View style={styles.container}>
-    {renderPuzzleBoard({
-      puzzleColor,
-      puzzleFen,
-      puzzleData,
-      navigate
-    })}
+    <View style={styles.puzzleContainer}>
+      <Text style={styles.puzzleHeadline}>Puzzle of the day</Text>
+      <TouchableOpacity onPress={() => navigate('Training', { puzzleData })}>
+        <Board
+          style={styles.board}
+          size={200}
+          color={puzzleColor}
+          fen={puzzleFen}
+          shouldSelectPiece={() => false}
+        />
+      </TouchableOpacity>
+    </View>
     <Button
       style={styles.button}
       text={'Play with the machine'}
@@ -169,9 +129,14 @@ const HomeScreen = ({
       totalMinutes,
       incrementSeconds,
       aiLevel,
-      playVsAI
+      playVsAI,
+      setState
     })}
-    {renderActivityIndicator({ ready })}
+    {ready && (
+      <View style={styles.loadingContanier}>
+        <ActivityIndicator animation size={'large'} color={'green'} />
+      </View>
+    )}
   </View>
 );
 

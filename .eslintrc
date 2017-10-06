@@ -1,7 +1,7 @@
 {
   "parser": "babel-eslint",
   "plugins": ["react"],
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "cleanjs"],
   "parserOptions": {
     "ecmaVersion": 7,
     "sourceType": "module",
@@ -19,5 +19,9 @@
     "prefer-arrow-callback": "error",
     "arrow-parens": "error",
     "no-confusing-arrow": "error",
+    "fp/no-nil": "off",
+    "fp/no-unused-expression": "off",
+    "better/no-ifs": "off",
+    "better/explicit-return": "off",
   }
 }
