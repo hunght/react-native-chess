@@ -141,7 +141,7 @@ export default class BoardView extends Component {
     });
   };
 
-  createBoardData(game, newFen) {
+  createBoardData(game: Chess, newFen: string): Array<Object> {
     if (newFen) {
       game.load(newFen);
     }
