@@ -2,17 +2,14 @@
 
 import type { Store as ReduxStore, Dispatch as ReduxDispatch } from 'redux';
 
-import type { TodosState, TodosAction } from './todos';
-import type {
-  VisibilityFilterState,
-  VisibilityFilterAction
-} from './visibilityFilter';
+import type { BoardState, BoardAction } from '../containers/board/type';
+import type { HomeState, HomeAction } from '../containers/home/type';
 
 export type ReduxInitAction = { type: '@@INIT' };
 
-export type State = TodosState & VisibilityFilterState;
+export type State = BoardState & HomeState;
 
-export type Action = ReduxInitAction | TodosAction | VisibilityFilterAction;
+export type Action = ReduxInitAction | BoardAction | HomeAction;
 
 export type Store = ReduxStore<State, Action>;
 

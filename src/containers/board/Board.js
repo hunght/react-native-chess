@@ -1,13 +1,14 @@
 // @flow
 
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import Square from './Square';
 import Piece from './Piece';
+import { DIMENSION } from './type';
+
 const screenWidth = Dimensions.get('window').width;
 const size = screenWidth - 32;
-const DIMENSION = 8;
-const COLUMN_NAMES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
 const renderSquares = ({ squares, movePiece, reverseBoard, showNotation }) => {
   const squareSize = size / DIMENSION;
   const rowSquares = [];

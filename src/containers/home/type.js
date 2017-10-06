@@ -4,18 +4,16 @@ export type Id = number;
 
 export type Text = string;
 
-export type Todo = {
+export type Home = {
   +id: Id,
-  +text: Text,
+  +fen: Text,
   +completed: boolean
 };
 
-export type Todos = Array<Todo>;
-
-export type TodosState = {
-  +todos: Todos
+export type HomeState = {
+  +board: Home
 };
 
-export type TodosAction =
+export type HomeAction =
   | { type: 'ADD_TODO', +id: Id, +text: Text }
   | { type: 'TOGGLE_TODO', +id: Id };
