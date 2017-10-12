@@ -1,14 +1,18 @@
 // @flow
-import { merge } from 'ramda';
+import { filter } from 'ramda';
 
 const initValue = {
-  response: null
+  currentScreen: 'HomeStack',
+  lastCurrentScreen: 'HomeStack'
 };
-
 const reducer = (state = initValue, action) => {
   switch (action.type) {
-    case 'GET_CHAPTER_ASYNC':
-      return merge(state, action.data);
+    case 'SET_CURRENT_SCREEN':
+      return {
+        ...state,
+        lastCurrentScreen: state.currentScreen,
+        currentScreen: action.payload
+      };
     default:
       return state;
   }

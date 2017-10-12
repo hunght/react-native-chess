@@ -5,6 +5,8 @@ export const COLUMN_NAMES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
 export type Id = number;
 
+export type BoardType = 'NORMAL_CHESS' | 'HIDDEN_CHESS' | 'RAMDOM_CHESS';
+
 export type Text = string;
 
 export type Board = {

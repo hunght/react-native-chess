@@ -8,14 +8,14 @@ import thunk from 'redux-thunk';
 import { compose } from 'redux';
 import { createStore, applyMiddleware } from 'redux';
 import App from './containers/app/App';
-
+import AppWithNavigationState from './containers/app/SlideMenu';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 const Chess = () => (
   <Provider store={store}>
-    <App />
+    <AppWithNavigationState />
   </Provider>
 );
 
