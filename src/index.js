@@ -7,7 +7,6 @@ import reducers from './configs/configReducers';
 import thunk from 'redux-thunk';
 import { compose } from 'redux';
 import { createStore, applyMiddleware } from 'redux';
-import App from './containers/app/App';
 import AppWithNavigationState from './containers/app/SlideMenu';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,4 +18,4 @@ const Chess = () => (
   </Provider>
 );
 
-AppRegistry.registerComponent('Chess', () => Chess);
+AppRegistry.registerComponent('HiddenChess', () => Chess);
