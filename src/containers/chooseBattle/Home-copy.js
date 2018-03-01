@@ -10,9 +10,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import Modal from 'react-native-modalbox';
-import SegmentedControlTab from 'react-native-segmented-control-tab';
-
 import { Button, Board } from '../../components';
 
 const HTTP_BASE_URL = 'https://en.lichess.org';
@@ -41,13 +38,13 @@ export default class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then((url) => {
+    Linking.getInitialURL().then(url => {
       if (url) {
         this.handleOpenURL(url);
       }
     });
 
-    Linking.addEventListener('url', (event) => this.handleOpenURL(event.url));
+    Linking.addEventListener('url', event => this.handleOpenURL(event.url));
     // sets session cookie
     fetch(`${HTTP_BASE_URL}/account/info`).then(this.getDailyPuzzle);
   }
@@ -59,8 +56,8 @@ export default class HomeScreen extends Component {
         'X-Requested-With': 'XMLHttpRequest'
       }
     })
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         const { id, fen, color, initialMove, lines } = res.puzzle;
 
         this.setState({
@@ -144,7 +141,7 @@ export default class HomeScreen extends Component {
             minimumValue={1}
             maximumValue={150}
             step={1}
-            onValueChange={(value) => this.setState({ totalMinutes: value })}
+            onValueChange={value => this.setState({ totalMinutes: value })}
             value={totalMinutes}
           />
           <Text style={styles.label}>
@@ -154,7 +151,7 @@ export default class HomeScreen extends Component {
             minimumValue={0}
             maximumValue={180}
             step={1}
-            onValueChange={(value) => this.setState({ incrementSeconds: value })}
+            onValueChange={value => this.setState({ incrementSeconds: value })}
             value={incrementSeconds}
           />
         </View>
@@ -170,7 +167,7 @@ export default class HomeScreen extends Component {
             minimumValue={1}
             maximumValue={8}
             step={1}
-            onValueChange={(value) => this.setState({ aiLevel: value })}
+            onValueChange={value => this.setState({ aiLevel: value })}
             value={aiLevel}
           />
         </View>
@@ -184,14 +181,14 @@ export default class HomeScreen extends Component {
           <SegmentedControlTab
             values={COLORS}
             selectedIndex={selectedColorIndex}
-            onTabPress={(index) => this.setState({ selectedColorIndex: index })}
+            onTabPress={index => this.setState({ selectedColorIndex: index })}
           />
           <View style={styles.clockContainer}>
             <Text style={styles.label}>Clock</Text>
             <SegmentedControlTab
               values={['Unlimited', 'Real time']}
               selectedIndex={selectedTimeIndex}
-              onTabPress={(index) => this.setState({ selectedTimeIndex: index })}
+              onTabPress={index => this.setState({ selectedTimeIndex: index })}
             />
             {timePickers}
           </View>

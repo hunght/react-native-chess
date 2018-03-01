@@ -20,7 +20,7 @@ const initValue = {
 const reducer = (state: HomeState = initValue, action: HomeAction) => {
   switch (action.type) {
     case 'SET_STATE':
-      return merge(state, action.data);
+      return merge(state, action.payload);
     default:
       return state;
   }

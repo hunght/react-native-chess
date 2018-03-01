@@ -12,7 +12,7 @@ import Menu from './Menu';
 import WrappedHeader from './WrappedHeader';
 
 // Pages
-import Home from '../home/Home';
+import Home from '../home/HomeContainer';
 import ChooseBattle from '../chooseBattle/ChooseBattle';
 import Training from '../training/Training';
 import PlayerVsAI from '../playerVsAI/PlayerVsAI';

@@ -1,7 +1,7 @@
 // @flow
 import { StackNavigator } from 'react-navigation';
 
-import Home from '../home/Home';
+import Home from '../home/HomeContainer';
 import Training from '../training/Training';
 import PlayerVsAI from '../playerVsAI/PlayerVsAI';
 import PlayerVsFriend from '../playerVsFriend/PlayerVsFriend';
