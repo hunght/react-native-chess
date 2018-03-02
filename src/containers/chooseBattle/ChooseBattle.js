@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  Slider,
   Text,
   StyleSheet,
   View,

@@ -10,7 +10,7 @@ const CustomButton = ({
   fontSize,
   onPress,
   ...props
-}) => {
+}: Object) => {
   // console.log("style ===", style);
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>

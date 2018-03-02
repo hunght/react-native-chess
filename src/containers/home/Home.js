@@ -1,22 +1,18 @@
 //@flow
 import React from 'react';
 import {
-  ActivityIndicator,
+  Image,
   Text,
   StyleSheet,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 
-import { Button } from '../../components';
+import { UserHeader, ImageButton } from '../../components';
+import BackgroundView from '../../common/BackgroundView';
 
-const COLORS = ['white', 'random', 'black'];
-
-const Header = () => (
-  <View>
-    <Text>Name</Text>
-  </View>
-);
+const { width } = Dimensions.get('window');
 
 const HomeScreen = ({
   selectedColorIndex,
@@ -33,20 +29,71 @@ const HomeScreen = ({
   navigation,
   ready,
   setState,
-  create
+  create,
+  onPress
 }: Object) => (
-  <View style={styles.container}>
-    <Button
-      style={styles.button}
-      text={'Play with the machine'}
-      onPress={() => displayModal(true)}
+  <BackgroundView style={styles.container}>
+    <UserHeader
+      style={{
+        height: 100
+      }}
     />
-    <Button
-      style={styles.button}
-      text={'Play with a friend'}
-      onPress={() => displayModal(false)}
-    />
-  </View>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        alignSelf: 'stretch',
+        alignItems: 'flex-end'
+      }}
+    >
+      <Image
+        resizeMode="contain"
+        source={require('src/assets/images/settingButton.png')}
+        style={styles.settingButton}
+      />
+    </TouchableOpacity>
+    <View
+      style={{
+        marginBottom: 60
+      }}
+    >
+      <View
+        style={{
+          flexDirection: 'row'
+        }}
+      >
+        <ImageButton
+          imageSource={require('src/assets/images/classic_chess.png')}
+          style={styles.button}
+          text={'Play with the machine'}
+          onPress={() => displayModal(true)}
+        />
+        <ImageButton
+          imageSource={require('src/assets/images/hidden_chess.png')}
+          style={styles.button}
+          text={'Play with the machine'}
+          onPress={() => displayModal(true)}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row'
+        }}
+      >
+        <ImageButton
+          imageSource={require('src/assets/images/puzzles_chess.png')}
+          style={styles.button}
+          text={'Play with the machine'}
+          onPress={() => displayModal(true)}
+        />
+        <ImageButton
+          imageSource={require('src/assets/images/random_chess.png')}
+          style={styles.button}
+          text={'Play with the machine'}
+          onPress={() => displayModal(true)}
+        />
+      </View>
+    </View>
+  </BackgroundView>
 );
 
 HomeScreen.navigationOptions = ({ navigation }) => ({
@@ -56,16 +103,16 @@ HomeScreen.navigationOptions = ({ navigation }) => ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     flexDirection: 'column',
-    padding: 32
+    justifyContent: 'space-between'
   },
   button: {
-    marginTop: 16
+    width: width / 2,
+    height: width / 2,
+    margin: 5
   },
-  modalButton: {
-    marginTop: 16,
-    backgroundColor: '#D85000'
+  settingButton: {
+    marginRight: 20
   },
   modal: {
     padding: 16,

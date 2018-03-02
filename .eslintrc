@@ -8,7 +8,9 @@
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
     "react-native/no-unused-styles": 2,
-    "react-native/no-inline-styles": 2,
-    "no-useless-escape": 0
+    "no-useless-escape": 0,
+    "react/prop-types": 0,
+    "react/display-name": 0,
+    "react-native/no-inline-styles": 0
   }
 }

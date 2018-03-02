@@ -1,9 +1,8 @@
 //@flow
 import React from 'react';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
+import { TouchableOpacity, Image, Text, View, StyleSheet } from 'react-native';
 
-const Button = ({ text, disabled, onPress, style }) => {
+const Button = ({ text, disabled, onPress, style }: Object) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <View style={[styles.button, style]}>
@@ -11,11 +10,6 @@ const Button = ({ text, disabled, onPress, style }) => {
       </View>
     </TouchableOpacity>
   );
-};
-
-Button.propTypes = {
-  text: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

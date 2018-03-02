@@ -1,6 +1,8 @@
 //@flow
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import { ImageBackground, StyleSheet } from 'react-native';
+
 const BackgroundView = ({ children, ...props }) => {
   return (
     <LinearGradient
@@ -24,4 +26,21 @@ const BackgroundView = ({ children, ...props }) => {
     </LinearGradient>
   );
 };
-export default BackgroundView;
+
+const Background = ({ children, style }) => (
+  <ImageBackground
+    resizeMode="contain"
+    source={require('src/assets/images/background.png')}
+    style={[styles.backgroundImage, style]}
+  >
+    {children}
+  </ImageBackground>
+);
+const styles = StyleSheet.create({
+  backgroundImage: {
+    backgroundColor: 'transparent',
+    alignItems: 'center'
+  }
+});
+
+export default Background;

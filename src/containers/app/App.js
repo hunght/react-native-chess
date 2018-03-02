@@ -14,7 +14,8 @@ const Chess = StackNavigator(
     PlayerVsFriend: { screen: PlayerVsFriend }
   },
   {
-    mode: 'modal'
+    mode: 'modal',
+    headerMode: 'none'
   }
 );
 export default Chess;
