@@ -1,15 +1,22 @@
 //@flow
 import React from 'react';
-import { Text as TextNative, StyleSheet } from 'react-native';
-import * as theme from './theme';
+import { View, StyleSheet } from 'react-native';
+import Text from './Text';
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: theme.FONT
+    borderRadius: 10,
+    backgroundColor: '#56445D',
+    borderColor: '#FBB034',
+    borderWidth: 1
   }
 });
 
-const TextRounded = ({ style, ...props }: Object) => {
-  return <TextNative {...props} style={[style, styles.text]} />;
+const TextRounded = ({ style, text = 'name' }: Object) => {
+  return (
+    <View style={[style, styles.text]}>
+      <Text style={{ marginLeft: 5, height: 20, color: 'white' }}>{text}</Text>
+    </View>
+  );
 };
 export default TextRounded;

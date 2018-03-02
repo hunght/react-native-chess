@@ -1,9 +1,8 @@
 //@flow
 import React from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 
-const Button = ({ disabled, imageSource, onPress, style }: Object) => {
+const ImageButton = ({ disabled, imageSource, onPress, style }: Object) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={disabled}>
       <Image
@@ -15,11 +14,6 @@ const Button = ({ disabled, imageSource, onPress, style }: Object) => {
   );
 };
 
-Button.propTypes = {
-  text: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
-};
-
 const styles = StyleSheet.create({
   button: {
     backgroundColor: 'transparent',
@@ -27,4 +21,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Button;
+export default ImageButton;

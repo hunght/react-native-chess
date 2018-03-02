@@ -29,7 +29,7 @@ const BackgroundView = ({ children, ...props }) => {
 
 const Background = ({ children, style }) => (
   <ImageBackground
-    resizeMode="contain"
+    resizeMode="cover"
     source={require('src/assets/images/background.png')}
     style={[styles.backgroundImage, style]}
   >

@@ -17,7 +17,8 @@ const UserHeader = ({
 }: Object) => {
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.button}>
+      <View style={styles.leftView}>
+        <TextRounded style={styles.text}>{text}</TextRounded>
         <TextRounded style={styles.text}>{text}</TextRounded>
       </View>
 
@@ -38,20 +39,28 @@ const UserHeader = ({
           />
         </ImageBackground>
       </TouchableOpacity>
+      <View style={styles.leftView}>
+        <TextRounded style={styles.text}>{text}</TextRounded>
+        <TextRounded style={styles.text}>{text}</TextRounded>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flexDirection: 'row',
     alignSelf: 'stretch',
     backgroundColor: 'transparent',
-    height: 100
+    justifyContent: 'space-between',
+    height: 100,
+    marginHorizontal: 10
   },
-  button: {
-    borderRadius: 3,
-    alignItems: 'center'
+  leftView: {
+    marginVertical: 20,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   avatarImage: {
     width: 50,
@@ -64,10 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   text: {
-    color: 'white',
-    fontSize: 14,
-    width: 120,
-    marginVertical: 16
+    width: 120
   }
 });
 

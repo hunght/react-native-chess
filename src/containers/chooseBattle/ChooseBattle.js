@@ -1,65 +1,57 @@
 //@flow
 import React from 'react';
-import {
-  ActivityIndicator,
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
+import { ImageButton } from '../../components';
+import BackgroundView from '../../common/BackgroundView';
+import Carousel from 'react-native-snap-carousel';
 
-import { Button, Board } from '../../components';
+const battleItems = [
+  { prize: 50, imageName: 'prize50' },
+  { prize: 200, imageName: 'prize200' }
+];
+const horizontalMargin = 20;
 
-const COLORS = ['white', 'random', 'black'];
+const sliderWidth = Dimensions.get('window').width;
+const slideWidth = sliderWidth * 0.5;
+const itemWidth = slideWidth + horizontalMargin * 2;
 
-const HomeScreen = ({
-  selectedColorIndex,
-  selectedTimeIndex,
-  modalDisplayed,
-  totalMinutes,
-  incrementSeconds,
-  aiLevel,
-  playVsAI,
+type BattleItemProps = {
+  +imageName: string
+};
+
+const BattleItem = ({ imageName = '', displayModal }: BattleItemProps) => (
+  <View style={styles.slide}>
+    <View style={styles.slideInnerContainer}>
+      <ImageButton
+        imageSource={require(`src/assets/images/prize50.png`)}
+        style={styles.imageButton}
+        onPress={() => displayModal(true)}
+      />
+    </View>
+  </View>
+);
+
+const ChooseBattle = ({
   displayModal,
   puzzleColor,
   puzzleFen,
   puzzleData,
   navigate,
-  ready,
-  setState
+  ready
 }: Object) => (
-  <View style={styles.container}>
-    <View style={styles.puzzleContainer}>
-      <Text style={styles.puzzleHeadline}>Puzzle of the day</Text>
-      <TouchableOpacity onPress={() => navigate('Training', { puzzleData })}>
-        <Board
-          style={styles.board}
-          size={200}
-          color={puzzleColor}
-          fen={puzzleFen}
-          shouldSelectPiece={() => false}
-        />
-      </TouchableOpacity>
-    </View>
-    <Button
-      style={styles.button}
-      text={'Play with the machine'}
-      onPress={() => displayModal(true)}
+  <BackgroundView style={styles.container}>
+    <Carousel
+      data={battleItems}
+      renderItem={item => (
+        <BattleItem item={item} displayModal={displayModal} />
+      )}
+      sliderWidth={sliderWidth}
+      itemWidth={itemWidth}
     />
-    <Button
-      style={styles.button}
-      text={'Play with a friend'}
-      onPress={() => displayModal(false)}
-    />
-    {ready && (
-      <View style={styles.loadingContanier}>
-        <ActivityIndicator animation size={'large'} color={'green'} />
-      </View>
-    )}
-  </View>
+  </BackgroundView>
 );
 
-HomeScreen.navigationOptions = ({ navigation }) => ({
+ChooseBattle.navigationOptions = ({ navigation }) => ({
   title: 'Home'
 });
 
@@ -69,8 +61,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 32
   },
-  button: {
-    marginTop: 16
+  slide: {
+    width: itemWidth,
+    flex: 1,
+    alignSelf: 'stretch',
+    paddingHorizontal: horizontalMargin
+  },
+  slideInnerContainer: {
+    width: slideWidth,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
+  },
+  imageButton: {
+    width: slideWidth
   },
   modalButton: {
     marginTop: 16,
@@ -120,4 +124,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HomeScreen;
+export default ChooseBattle;

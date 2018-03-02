@@ -64,13 +64,12 @@ const HomeScreen = ({
         <ImageButton
           imageSource={require('src/assets/images/classic_chess.png')}
           style={styles.button}
-          text={'Play with the machine'}
           onPress={() => displayModal(true)}
         />
+
         <ImageButton
-          imageSource={require('src/assets/images/hidden_chess.png')}
+          imageSource={require('src/assets/images/random_chess.png')}
           style={styles.button}
-          text={'Play with the machine'}
           onPress={() => displayModal(true)}
         />
       </View>
@@ -80,15 +79,13 @@ const HomeScreen = ({
         }}
       >
         <ImageButton
-          imageSource={require('src/assets/images/puzzles_chess.png')}
+          imageSource={require('src/assets/images/hidden_chess.png')}
           style={styles.button}
-          text={'Play with the machine'}
           onPress={() => displayModal(true)}
         />
         <ImageButton
-          imageSource={require('src/assets/images/random_chess.png')}
+          imageSource={require('src/assets/images/puzzles_chess.png')}
           style={styles.button}
-          text={'Play with the machine'}
           onPress={() => displayModal(true)}
         />
       </View>
