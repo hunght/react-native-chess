@@ -1,18 +1,13 @@
 //@flow
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
+
 import Sound from 'react-native-sound';
 
 const TOTAL_MINUTES = 60;
 const lowTimeSound = new Sound('lowtime.mp3', Sound.MAIN_BUNDLE);
 
 export default class Clock extends Component {
-  static propTypes = {
-    time: PropTypes.number.isRequired,
-    enabled: PropTypes.bool
-  };
-
   constructor(props) {
     super(props);
     this.state = {

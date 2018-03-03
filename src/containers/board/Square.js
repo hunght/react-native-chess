@@ -1,26 +1,8 @@
 //@flow
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import PropTypes from 'prop-types';
 
 export default class Board extends Component {
-  static propTypes = {
-    size: PropTypes.number.isRequired,
-    showNotation: PropTypes.bool,
-    rowIndex: PropTypes.number.isRequired,
-    position: PropTypes.string.isRequired,
-    columnName: PropTypes.string.isRequired,
-    columnIndex: PropTypes.number.isRequired,
-    dimension: PropTypes.number.isRequired,
-    selected: PropTypes.bool,
-    canMoveHere: PropTypes.bool,
-    lastMove: PropTypes.bool,
-    inCheck: PropTypes.bool,
-    reverseBoard: PropTypes.bool,
-    onSelected: PropTypes.func.isRequired,
-    isHidden: PropTypes.func.isRequired
-  };
-
   onSelected = () => {
     const { position, onSelected } = this.props;
     onSelected(position);

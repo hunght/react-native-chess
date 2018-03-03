@@ -1,7 +1,6 @@
 //@flow
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback, Image } from 'react-native';
-import PropTypes from 'prop-types';
 
 const PIECE_IMAGES = {
   b: {
@@ -31,18 +30,6 @@ const PIECE_IMAGES = {
 };
 
 export default class Piece extends Component {
-  static propTypes = {
-    type: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
-    position: PropTypes.string.isRequired,
-    rowIndex: PropTypes.number.isRequired,
-    columnIndex: PropTypes.number.isRequired,
-    pieceSize: PropTypes.number.isRequired,
-    reverseBoard: PropTypes.bool,
-    onSelected: PropTypes.func.isRequired,
-    isHidden: PropTypes.func.isRequired
-  };
-
   onSelected = () => {
     const { position, onSelected } = this.props;
     onSelected(position);

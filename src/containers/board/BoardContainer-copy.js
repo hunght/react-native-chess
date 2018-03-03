@@ -1,7 +1,6 @@
 //@flow
 import React, { Component } from 'react';
 import { Dimensions, View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import { Chess } from 'chess.js';
 import Sound from 'react-native-sound';
 
@@ -21,16 +20,6 @@ type BoardViewProps = {
 };
 
 export default class BoardView extends Component {
-  static propTypes: BoardViewProps = {
-    fen: PropTypes.string,
-    size: PropTypes.number.isRequired,
-    showNotation: PropTypes.bool,
-    color: PropTypes.oneOf(['w', 'b']),
-    shouldSelectPiece: PropTypes.func,
-    onMove: PropTypes.func,
-    style: View.propTypes.style
-  };
-
   static defaultProps = {
     size: screenWidth - 32,
     showNotation: true,
@@ -63,7 +52,7 @@ export default class BoardView extends Component {
   movePiece = (to, from) => {
     const { onMove } = this.props;
     const { game, board } = this.state;
-    const selectedPiece = board.find((item) => item.selected);
+    const selectedPiece = board.find(item => item.selected);
     const moveConfig = {
       to,
       from: from || selectedPiece.position,
@@ -93,10 +82,10 @@ export default class BoardView extends Component {
     });
   };
 
-  selectPiece = (position) => {
+  selectPiece = position => {
     const { shouldSelectPiece } = this.props;
     const { board, game } = this.state;
-    const piece = board.find((b) => b.position === position);
+    const piece = board.find(b => b.position === position);
 
     // capture the piece
     if (piece.canMoveHere) {
@@ -114,9 +103,9 @@ export default class BoardView extends Component {
         square: piece.position,
         verbose: true
       })
-      .map((item) => item.to);
+      .map(item => item.to);
 
-    const newBoard = board.map((square) => {
+    const newBoard = board.map(square => {
       // unselect everything
       if (piece.selected) {
         return {
@@ -183,7 +172,7 @@ export default class BoardView extends Component {
     const squareSize = size / DIMENSION;
     const rowSquares = [];
 
-    board.forEach((square) => {
+    board.forEach(square => {
       const {
         rowIndex,
         columnIndex,
@@ -233,7 +222,7 @@ export default class BoardView extends Component {
     const { size } = this.props;
     const { board } = this.state;
 
-    return board.map((square) => {
+    return board.map(square => {
       const { type, color, rowIndex, columnIndex, position } = square;
       if (type) {
         return (
