@@ -1,0 +1,134 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.44.1"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+
+
+  end
+
+  desc "Make icon"
+  lane :icon_ios do
+    # `appicon_image_file` defaults to "fastlane/metadata/app_icon.png"
+    appicon(
+      appicon_devices: [:ipad, :iphone],
+      appicon_path: 'hiddenChess/Images.xcassets' # output path
+    )
+  end
+
+  # or
+
+  lane :icon_android do
+    android_appicon(appicon_image_file: 'spec/fixtures/Themoji.png',
+      appicon_devices: [:phone, :tablet],
+      appicon_path:'app/res/mipmap')
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    scan
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :beta do
+    cert
+    produce(
+      app_name: 'Hidden Chess',
+      language: 'English',
+      app_version: '1.0',
+    )
+    # 5
+    sigh(force: true)
+    # match(type: "appstore") # more information: https://codesigning.guide
+    gym(scheme: "hiddenChess") # Build your app - more options available
+    pilot
+
+    # sh "your_script.sh"
+    # You can also use other beta testing services here (run `fastlane actions`)
+  end
+
+
+  lane:name do
+      produce(
+          app_name: 'Hidden Chess',
+          language: 'English',
+          app_version: '1.0',
+      )
+  end
+
+    lane :release do
+      # match(type: "appstore")
+      # snapshot
+      # 4
+      cert
+      # 5
+      sigh(force: true)
+      gym(scheme: "hiddenChess") # Build your app - more options available
+      deliver(force: true)
+      # frameit
+    end
+
+    lane :update do
+      deliver(
+        skip_screenshots: true,
+        skip_binary_upload: true,
+      )
+    end
+
+    lane :production do
+      # match(type: "appstore")
+      # snapshot
+      # 4
+      produce(
+        app_name: 'Hidden Chess',
+        language: 'English',
+        app_version: '1.0',
+      )
+      cert
+      # 5
+      sigh(force: true)
+      gym # Build your app - more options available
+      deliver(force: true)
+      # frameit
+    end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    # slack(
+    #   message: "Successfully deployed new App Update."
+    # )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used. No personal data is recorded.
+# Learn more at https://github.com/fastlane/fastlane#metrics

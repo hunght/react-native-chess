@@ -17,7 +17,7 @@ const initValue = {
   board: {}
 };
 
-const reducer = (state: HomeState = initValue, action: HomeAction) => {
+const reducer = (state = initValue, action) => {
   switch (action.type) {
     case 'SET_STATE':
       return merge(state, action.data);
