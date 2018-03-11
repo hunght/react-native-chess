@@ -9,6 +9,7 @@ import PlayerVsAI from './playerVsAI/PlayerVsAI';
 import PlayerVsFriend from './playerVsFriend/PlayerVsFriend';
 import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
+import UserInfo from './auth/UserInfo';
 
 export const SignedOut = StackNavigator(
   {
@@ -40,6 +41,7 @@ const SignedIn = StackNavigator(
     ChooseBattle: { screen: ChooseBattle },
     PlayerVsAI: { screen: PlayerVsAI },
     PlayerVsFriend: { screen: PlayerVsFriend },
+    UserInfo: { screen: UserInfo },
   },
   {
     mode: 'modal',

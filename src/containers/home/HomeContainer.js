@@ -10,7 +10,10 @@ export default compose(
   withHandlers({
     displayModal: ({ navigation }) => () => {
       navigation.navigate('ChooseBattle');
-    }
+    },
+    showUserInfo: ({ navigation }) => () => {
+      navigation.navigate('UserInfo');
+    },
   }),
   lifecycle({
     componentDidMount() {
@@ -23,6 +26,6 @@ export default compose(
       Linking.addEventListener('url', event =>
         this.props.handleOpenURL(event.url)
       );
-    }
+    },
   })
 )(Home);

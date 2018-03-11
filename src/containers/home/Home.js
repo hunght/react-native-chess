@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
 import { UserHeader, ImageButton } from '../../components';
@@ -14,35 +14,19 @@ import BackgroundView from '../../common/BackgroundView';
 
 const { width } = Dimensions.get('window');
 
-const HomeScreen = ({
-  selectedColorIndex,
-  selectedTimeIndex,
-  modalDisplayed,
-  totalMinutes,
-  incrementSeconds,
-  aiLevel,
-  playVsAI,
-  displayModal,
-  puzzleColor,
-  puzzleFen,
-  puzzleData,
-  navigation,
-  ready,
-  setState,
-  create,
-  onPress
-}: Object) => (
+const HomeScreen = ({ displayModal, showUserInfo, onPress }: Object) => (
   <BackgroundView style={styles.container}>
     <UserHeader
       style={{
-        height: 100
+        height: 100,
       }}
+      onPress={() => showUserInfo()}
     />
     <TouchableOpacity
       onPress={onPress}
       style={{
         alignSelf: 'stretch',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
       }}
     >
       <Image
@@ -53,12 +37,12 @@ const HomeScreen = ({
     </TouchableOpacity>
     <View
       style={{
-        marginBottom: 60
+        marginBottom: 60,
       }}
     >
       <View
         style={{
-          flexDirection: 'row'
+          flexDirection: 'row',
         }}
       >
         <ImageButton
@@ -75,7 +59,7 @@ const HomeScreen = ({
       </View>
       <View
         style={{
-          flexDirection: 'row'
+          flexDirection: 'row',
         }}
       >
         <ImageButton
@@ -94,54 +78,54 @@ const HomeScreen = ({
 );
 
 HomeScreen.navigationOptions = ({ navigation }) => ({
-  title: 'Home'
+  title: 'Home',
 });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   button: {
     width: width / 2,
     height: width / 2,
-    margin: 5
+    margin: 5,
   },
   settingButton: {
-    marginRight: 20
+    marginRight: 20,
   },
   modal: {
     padding: 16,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 16
+    padding: 16,
   },
   label: {
     fontSize: 10,
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 16,
-    padding: 4
+    padding: 4,
   },
   clockContainer: {
     backgroundColor: '#81a59a',
     padding: 16,
-    marginTop: 16
+    marginTop: 16,
   },
   board: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   puzzleContainer: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   puzzleHeadline: {
     color: 'red',
     fontSize: 16,
     textAlign: 'center',
-    margin: 4
+    margin: 4,
   },
   loadingContanier: {
     position: 'absolute',
@@ -151,8 +135,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     paddingTop: 24,
-    opacity: 0.4
-  }
+    opacity: 0.4,
+  },
 });
 
 export default HomeScreen;

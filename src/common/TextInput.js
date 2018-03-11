@@ -5,8 +5,8 @@ import * as theme from './theme';
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: theme.FONT
-  }
+    fontFamily: theme.FONT,
+  },
 });
 
 const TextInput = ({ style, ...props }: Object) => {

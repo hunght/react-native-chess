@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#56445D',
     borderColor: '#FBB034',
-    borderWidth: 1
-  }
+    borderWidth: 1,
+  },
 });
 
 const TextRounded = ({ style, text = 'name' }: Object) => {
