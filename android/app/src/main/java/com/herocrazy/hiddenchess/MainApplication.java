@@ -1,4 +1,4 @@
-package com.hiddenchess;
+package com.herocrazy.hiddenchess;
 
 import android.app.Application;
 

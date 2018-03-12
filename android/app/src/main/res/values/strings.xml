@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">hiddenChess</string>
     <string name="facebook_app_id">151591675513351</string>
+    <string name="fb_login_protocol_scheme">fb151591675513351</string>
 </resources>
