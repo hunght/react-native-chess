@@ -14,13 +14,14 @@ const initValue = {
   puzzleFen: 'wrong',
   puzzleColor: 'w',
   boardType: 'NORMAL_CHESS',
-  board: {}
+  board: {},
 };
 
 const reducer = (state: HomeState = initValue, action: HomeAction) => {
   switch (action.type) {
     case 'SET_STATE':
       return merge(state, action.payload);
+
     default:
       return state;
   }
