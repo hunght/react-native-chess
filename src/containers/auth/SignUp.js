@@ -81,15 +81,21 @@ export default compose(
   withState('password', 'setPassword', ''),
   withState('name', 'setName', ''),
   withHandlers({
-    signUp: ({ navigation, signupMutation, email, password }) => async () => {
-      console.log(email, password);
+    signUp: ({
+      navigation,
+      signupMutation,
+      email,
+      password,
+      name,
+    }) => async () => {
       const result = await signupMutation({
         variables: {
           email,
           password,
+          name,
         },
       });
-      const { token } = result.data.login;
+      const { token } = result.data.signup;
       AsyncStorage.setItem(AUTH_TOKEN, token);
       navigation.navigate('SignedIn');
     },
