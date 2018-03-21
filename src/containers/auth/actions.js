@@ -27,8 +27,8 @@ export const isSignedIn = () => {
 
 export const setCurrentScreen = title => ({
   type: SET_CURRENT_SCREEN,
-  payload: title,
+  payload: title
 });
 export const setDrawerOpen = () => ({
-  type: 'SET_DRAWER_OPEN',
+  type: 'SET_DRAWER_OPEN'
 });

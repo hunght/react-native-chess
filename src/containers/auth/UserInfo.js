@@ -18,7 +18,7 @@ export default ({ navigation }) => (
         backgroundColor="#03A9F4"
         title="SIGN UP"
         onPress={() => {
-          onSignIn().then(() => navigation.navigate('SignedIn'));
+          onSignIn().then(() => navigation.navigate('SignUp'));
         }}
       />
       <Button
