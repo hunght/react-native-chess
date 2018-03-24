@@ -1,37 +1,42 @@
 import { AUTH_TOKEN } from '../configs/constants';
-import { ApolloLink, split } from 'apollo-client-preset';
+import { split } from 'apollo-client-preset';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import { AsyncStorage } from 'react-native';
+import { setContext } from 'apollo-link-context';
 
 const httpLink = new HttpLink({ uri: `http://localhost:4000` });
 
-const middlewareAuthLink = new ApolloLink((operation, forward) => {
-  const token = AsyncStorage.getItem(AUTH_TOKEN);
-  const authorizationHeader = token ? `Bearer ${token}` : null;
-  operation.setContext({
+const getToken = async () => {
+  return AsyncStorage.getItem(AUTH_TOKEN);
+};
+
+const authMiddleware = setContext(async (req, { headers }) => {
+  const token = await getToken();
+  return {
     headers: {
-      authorization: authorizationHeader,
+      ...headers,
+      Authorization: `Bearer: ${token}` || null,
     },
-  });
-  return forward(operation);
+  };
 });
 
-const httpLinkWithAuthToken = middlewareAuthLink.concat(httpLink);
+const httpLinkWithAuthToken = authMiddleware.concat(httpLink);
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000`,
   options: {
     reconnect: true,
     connectionParams: {
-      authToken: AsyncStorage.getItem(AUTH_TOKEN),
+      authToken: getToken(), //FIXME: need comfirm that work with subscription
     },
   },
 });
 
+console.log('wsLink ===', wsLink);
 const link = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);

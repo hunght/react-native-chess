@@ -18,7 +18,7 @@ const BackgroundView = ({ children, ...props }) => {
         '#2D3640',
         '#222B35',
         '#1B242E',
-        '#19222C'
+        '#19222C',
       ]}
       {...props}
     >
@@ -39,8 +39,8 @@ const Background = ({ children, style }) => (
 const styles = StyleSheet.create({
   backgroundImage: {
     backgroundColor: 'transparent',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default Background;

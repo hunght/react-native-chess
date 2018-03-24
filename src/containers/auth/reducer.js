@@ -1,17 +1,17 @@
 // @flow
 import { filter } from 'ramda';
+import { SET_CURRENT_USER } from './actions';
 
 const initValue = {
-  currentScreen: 'HomeStack',
-  lastCurrentScreen: 'HomeStack',
+  checkedSignIn: false,
+  token: null,
 };
 const reducer = (state = initValue, action) => {
   switch (action.type) {
-    case 'SET_CURRENT_SCREEN':
+    case SET_CURRENT_USER:
       return {
         ...state,
-        lastCurrentScreen: state.currentScreen,
-        currentScreen: action.payload,
+        ...action.data,
       };
     default:
       return state;
