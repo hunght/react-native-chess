@@ -19,7 +19,7 @@ const App = ({ checkedSignIn, signedIn }) => {
 };
 
 export default compose(
-  connect(({ auth }) => ({ ...auth }), { setCurrentUser }),
+  connect(state => ({ signedIn: state.auth.signedIn }), { setCurrentUser }),
   withState('checkedSignIn', 'setCheckedSignIn', false),
   withHandlers({
     checkSignIn: ({ setCurrentUser, setCheckedSignIn }) => async () => {
@@ -27,11 +27,9 @@ export default compose(
         const result = await client.query({
           query: GET_ME,
         });
-        console.log('result ===', result);
         setCurrentUser(result);
         setCheckedSignIn(true);
       } catch (error) {
-        console.log('error ===', error);
         setCheckedSignIn(true);
       }
     },

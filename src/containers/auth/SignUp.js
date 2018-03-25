@@ -1,8 +1,9 @@
 import React from 'react';
-import { AUTH_TOKEN } from 'src/configs/constants';
+import { AUTH_TOKEN, FACEBOOK_PERMISSIONS } from 'src/configs/constants';
 import { graphql } from 'react-apollo';
 import { withLoadingComponent } from 'src/components/LoadingView';
-
+import { connect } from 'react-redux';
+import { setCurrentUser } from './actions';
 import gql from 'graphql-tag';
 
 import { compose, withState, withHandlers } from 'recompose';
@@ -55,7 +56,7 @@ const SignUp = ({
             />
           </ImageBackground>
           <LoginButton
-            publishPermissions={['publish_actions']}
+            publishPermissions={FACEBOOK_PERMISSIONS}
             onLoginFinished={(error, result) => {
               if (error) {
                 alert('login has error: ' + result.error);
@@ -163,6 +164,7 @@ export default compose(
   withState('email', 'setEmail', ''),
   withState('password', 'setPassword', ''),
   withState('name', 'setName', ''),
+  connect(null, { setCurrentUser }),
   withHandlers({
     signUp: ({
       navigation,
@@ -170,6 +172,7 @@ export default compose(
       email,
       password,
       name,
+      setCurrentUser,
     }) => async () => {
       const result = await signupMutation({
         variables: {
@@ -179,6 +182,7 @@ export default compose(
         },
       });
       const { token } = result.data.signup;
+      setCurrentUser(result.data.signup);
       await AsyncStorage.setItem(AUTH_TOKEN, token);
       navigation.navigate('SignedIn');
     },

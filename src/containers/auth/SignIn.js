@@ -1,11 +1,10 @@
 import React from 'react';
-import { AUTH_TOKEN } from 'src/configs/constants';
+import { AUTH_TOKEN, FACEBOOK_PERMISSIONS } from 'src/configs/constants';
 import { withLoadingComponent } from 'src/components/LoadingView';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-
+import { connect } from 'react-redux';
 import { compose, withState, withHandlers } from 'recompose';
-
 import {
   Image,
   ImageBackground,
@@ -19,9 +18,8 @@ import {
 import TextInputRounded from 'src/common/TextInputRounded';
 import BackgroundView from '../../common/BackgroundView';
 import Text from '../../common/Text';
-
 import { Button } from '../../components';
-
+import { setCurrentUser } from './actions';
 const FBSDK = require('react-native-fbsdk');
 const { LoginButton, AccessToken } = FBSDK;
 
@@ -54,7 +52,7 @@ const Login = ({
             />
           </ImageBackground>
           <LoginButton
-            publishPermissions={['publish_actions']}
+            publishPermissions={FACEBOOK_PERMISSIONS}
             onLoginFinished={(error, result) => {
               if (error) {
                 alert('login has error: ' + result.error);
@@ -138,6 +136,7 @@ const Login = ({
     </KeyboardAvoidingView>
   </BackgroundView>
 );
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
@@ -177,21 +176,31 @@ const LOGIN_MUTATION = gql`
 `;
 
 export default compose(
+  connect(null, { setCurrentUser }),
   graphql(LOGIN_MUTATION, { name: 'loginMutation' }),
   withLoadingComponent,
   withState('email', 'setEmail', ''),
   withState('password', 'setPassword', ''),
   withHandlers({
-    signIn: ({ navigation, loginMutation, email, password }) => async () => {
-      const result = await loginMutation({
-        variables: {
-          email,
-          password,
-        },
-      });
-      const { token } = result.data.login;
-      await AsyncStorage.setItem(AUTH_TOKEN, token);
-      navigation.navigate('SignedIn');
+    signIn: ({
+      loginMutation,
+      email,
+      password,
+      setCurrentUser,
+    }) => async () => {
+      try {
+        const result = await loginMutation({
+          variables: {
+            email,
+            password,
+          },
+        });
+        const { token } = result.data.login;
+        await AsyncStorage.setItem(AUTH_TOKEN, token);
+        setCurrentUser(result.data.login);
+      } catch (error) {
+        alert(error);
+      }
     },
   })
 )(Login);

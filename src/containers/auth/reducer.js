@@ -3,8 +3,8 @@ import { filter } from 'ramda';
 import { SET_CURRENT_USER } from './actions';
 
 const initValue = {
-  checkedSignIn: false,
   token: null,
+  signedIn: false,
 };
 const reducer = (state = initValue, action) => {
   switch (action.type) {
@@ -12,6 +12,7 @@ const reducer = (state = initValue, action) => {
       return {
         ...state,
         ...action.data,
+        signedIn: true,
       };
     default:
       return state;
