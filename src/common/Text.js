@@ -5,11 +5,14 @@ import * as theme from './theme';
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: theme.FONT
-  }
+    fontFamily: theme.FONT,
+    color: 'white',
+    fontSize: 15,
+    fontWeight: 'normal',
+  },
 });
 
 const Text = ({ style, ...props }: Object) => {
-  return <TextNative {...props} style={[style, styles.text]} />;
+  return <TextNative {...props} style={[styles.text, style]} />;
 };
 export default Text;

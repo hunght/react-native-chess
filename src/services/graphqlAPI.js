@@ -3,7 +3,9 @@ export const GET_ME = gql`
   query GetMe {
     me {
       id
-      email
+      posts {
+        id
+      }
     }
   }
 `;

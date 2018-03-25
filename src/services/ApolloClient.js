@@ -16,10 +16,11 @@ const getToken = async () => {
 
 const authMiddleware = setContext(async (req, { headers }) => {
   const token = await getToken();
+  console.log('token ===', token);
   return {
     headers: {
       ...headers,
-      Authorization: `Bearer: ${token}` || null,
+      Authorization: `Bearer ${token}` || null,
     },
   };
 });

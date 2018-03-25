@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 const TextRounded = ({ style, text = 'name' }: Object) => {
   return (
-    <View style={[style, styles.text]}>
+    <View style={[styles.text, style]}>
       <Text style={{ marginLeft: 5, height: 20, color: 'white' }}>{text}</Text>
     </View>
   );

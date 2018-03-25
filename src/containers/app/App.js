@@ -7,6 +7,7 @@ import { setCurrentUser } from '../auth/actions';
 
 import client from 'src/services/ApolloClient';
 import { GET_ME } from 'src/services/graphqlAPI';
+import { AUTH_TOKEN } from 'src/configs/constants';
 
 const App = ({ checkedSignIn, signedIn }) => {
   // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
@@ -27,9 +28,11 @@ export default compose(
         const result = await client.query({
           query: GET_ME,
         });
-        setCurrentUser(result);
+        const token = await AsyncStorage.getItem(AUTH_TOKEN);
+        setCurrentUser({ token, user: result.data.me });
         setCheckedSignIn(true);
       } catch (error) {
+        console.log('error ===', error);
         setCheckedSignIn(true);
       }
     },

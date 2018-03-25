@@ -30,6 +30,7 @@ const Login = ({
   signIn,
   setEmail,
   setPassword,
+  onFacebookFinished,
   navigation,
 }: Object) => (
   <BackgroundView style={styles.container}>
@@ -53,17 +54,7 @@ const Login = ({
           </ImageBackground>
           <LoginButton
             publishPermissions={FACEBOOK_PERMISSIONS}
-            onLoginFinished={(error, result) => {
-              if (error) {
-                alert('login has error: ' + result.error);
-              } else if (result.isCancelled) {
-                alert('login is cancelled.');
-              } else {
-                AccessToken.getCurrentAccessToken().then(data => {
-                  alert(data.accessToken.toString());
-                });
-              }
-            }}
+            onLoginFinished={onFacebookFinished}
             style={{
               marginTop: 10,
               marginHorizontal: 60,
@@ -182,6 +173,17 @@ export default compose(
   withState('email', 'setEmail', ''),
   withState('password', 'setPassword', ''),
   withHandlers({
+    onFacebookFinished: () => (error, result) => {
+      if (error) {
+        alert('login has error: ' + result.error);
+      } else if (result.isCancelled) {
+        alert('login is cancelled.');
+      } else {
+        AccessToken.getCurrentAccessToken().then(data => {
+          alert(data.accessToken.toString());
+        });
+      }
+    },
     signIn: ({
       loginMutation,
       email,
