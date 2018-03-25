@@ -6,8 +6,6 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose, withState, withHandlers } from 'recompose';
 import {
-  Image,
-  ImageBackground,
   KeyboardAvoidingView,
   View,
   StyleSheet,
@@ -20,6 +18,8 @@ import BackgroundView from '../../common/BackgroundView';
 import Text from '../../common/Text';
 import { Button } from '../../components';
 import { setCurrentUser } from './actions';
+import AvatarView from 'src/components/AvatarView';
+
 const FBSDK = require('react-native-fbsdk');
 const { LoginButton, AccessToken } = FBSDK;
 
@@ -37,21 +37,7 @@ const Login = ({
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <ImageBackground
-            resizeMode="contain"
-            source={require('src/assets/images/avatarBackground.png')}
-            style={styles.backgroundImage}
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                avatarSource
-                  ? avatarSource
-                  : require('src/assets/images/avatarDefault.png')
-              }
-              style={styles.avatarImage}
-            />
-          </ImageBackground>
+          <AvatarView url={avatarSource} size={200} />
           <LoginButton
             publishPermissions={FACEBOOK_PERMISSIONS}
             onLoginFinished={onFacebookFinished}
@@ -138,17 +124,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  avatarImage: {
-    width: 100,
-    height: 100,
-  },
-  backgroundImage: {
-    width: 200,
-    height: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
   text: {
     height: 30,
     alignSelf: 'stretch',

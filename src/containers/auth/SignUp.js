@@ -5,11 +5,9 @@ import { withLoadingComponent } from 'src/components/LoadingView';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './actions';
 import gql from 'graphql-tag';
-
+import AvatarView from 'src/components/AvatarView';
 import { compose, withState, withHandlers } from 'recompose';
 import {
-  Image,
-  ImageBackground,
   KeyboardAvoidingView,
   View,
   StyleSheet,
@@ -41,21 +39,7 @@ const SignUp = ({
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <ImageBackground
-            resizeMode="contain"
-            source={require('src/assets/images/avatarBackground.png')}
-            style={styles.backgroundImage}
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                avatarSource
-                  ? avatarSource
-                  : require('src/assets/images/avatarDefault.png')
-              }
-              style={styles.avatarImage}
-            />
-          </ImageBackground>
+          <AvatarView url={avatarSource} size={200} />
           <LoginButton
             publishPermissions={FACEBOOK_PERMISSIONS}
             onLoginFinished={onFacebookFinished}

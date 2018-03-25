@@ -1,13 +1,12 @@
 import React from 'react';
 import { AUTH_TOKEN, FACEBOOK_PERMISSIONS } from 'src/configs/constants';
 import { withLoadingComponent } from 'src/components/LoadingView';
+import AvatarView from 'src/components/AvatarView';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose, withState, withHandlers } from 'recompose';
 import {
-  Image,
-  ImageBackground,
   KeyboardAvoidingView,
   View,
   StyleSheet,
@@ -26,33 +25,22 @@ const { LoginButton, AccessToken } = FBSDK;
 const UserInfo = ({
   email,
   password,
-  avatarSource,
   signIn,
   setEmail,
+  location,
+  setLocation,
+  country,
+  setCountry,
   setPassword,
   onFacebookFinished,
+  user,
   navigation,
 }: Object) => (
   <BackgroundView style={styles.container}>
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <ImageBackground
-            resizeMode="contain"
-            source={require('src/assets/images/avatarBackground.png')}
-            style={styles.backgroundImage}
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                avatarSource
-                  ? avatarSource
-                  : require('src/assets/images/avatarDefault.png')
-              }
-              style={styles.avatarImage}
-            />
-          </ImageBackground>
-
+          <AvatarView url={user.avatar} />
           <View style={styles.basicInfoView}>
             <Text style={{ marginTop: 10, opacity: 0.5, fontWeight: 'bold' }}>
               Basic Info
@@ -70,24 +58,22 @@ const UserInfo = ({
               />
             </View>
             <View style={styles.rowView}>
-              <Text style={{ marginTop: 10 }}> Email:</Text>
+              <Text style={{ marginTop: 10 }}> Location:</Text>
               <TextInput
                 style={styles.text}
-                keyboardType={'email-address'}
-                defaultValue={email}
+                defaultValue={location}
                 onChangeText={text => {
-                  setEmail(text);
+                  setLocation(text);
                 }}
               />
             </View>
             <View style={styles.rowView}>
-              <Text style={{ marginTop: 10 }}> Email:</Text>
+              <Text style={{ marginTop: 10 }}> Country:</Text>
               <TextInput
                 style={styles.text}
-                keyboardType={'email-address'}
-                defaultValue={email}
+                defaultValue={country}
                 onChangeText={text => {
-                  setEmail(text);
+                  setCountry(text);
                 }}
               />
             </View>
@@ -219,14 +205,16 @@ const LOGIN_MUTATION = gql`
 export default compose(
   connect(
     state => ({
-      auth: state.auth,
+      user: state.auth.user,
     }),
     { setCurrentUser }
   ),
   graphql(LOGIN_MUTATION, { name: 'loginMutation' }),
   withLoadingComponent,
-  withState('email', 'setEmail', ''),
-  withState('password', 'setPassword', ''),
+  withState('email', 'setEmail', ({ user }) => user.email),
+  withState('country', 'setCountry', ({ user }) => user.country),
+  withState('location', 'setLocation', ({ user }) => user.location),
+  withState('password', 'setPassword', '000000'),
   withHandlers({
     onFacebookFinished: () => (error, result) => {
       if (error) {
